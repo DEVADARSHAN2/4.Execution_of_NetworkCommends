@@ -26,7 +26,55 @@ This commands includes
 • Other IP Commands e.g. show ip route etc.
 <BR>
 
+## Program:
+CLIENT :
+```
+import socket 
+from pythonping import ping 
+s=socket.socket() 
+s.bind(('localhost',8000)) 
+s.listen(5) 
+c,addr=s.accept() 
+while True: 
+    hostname=c.recv(1024).decode() 
+    try: 
+        c.send(str(ping(hostname, verbose=False)).encode()) 
+    except KeyError: 
+        c.send("Not Found".encode())
+```
+SERVER:
+```
+import socket 
+s=socket.socket() 
+s.connect(('localhost',8000)) 
+while True: 
+    ip=input("Enter the website you want to ping ") 
+    s.send(ip.encode()) 
+    print(s.recv(1024).decode()) 
+```
+TRACER:
+```
+from scapy.all import* 
+target = ["www.google.com"] 
+result, unans = traceroute(target,maxttl=32) 
+print(result,unans)
+```
 ## Output
+CLIENT:
+
+![image](https://github.com/DEVADARSHAN2/4.Execution_of_NetworkCommends/assets/119432150/a06deb27-1443-4706-9af7-a805dfd86947)
+
+
+SERVER:
+
+![image](https://github.com/DEVADARSHAN2/4.Execution_of_NetworkCommends/assets/119432150/c72c8a59-40df-4b31-bb32-00db1f6fbcc2)
+
+
+TRACER:
+
+![image](https://github.com/DEVADARSHAN2/4.Execution_of_NetworkCommends/assets/119432150/6f201875-2495-4c78-b37c-19da1104fde6)
+
+
 
 ## Result
-Thus Execution of Network commands Performed 
+Thus Execution of Network commands Performed Successfully.
